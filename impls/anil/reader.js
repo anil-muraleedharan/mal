@@ -1,3 +1,5 @@
+const { List, Vector, HashMap } = require('./types');
+
 class Reader {
   constructor(tokens) {
     this.tokens = tokens.slice();
@@ -37,17 +39,35 @@ const read_atom = (token) => {
   return token;
 };
 
-const read_list = (reader) => {
+function read_seq(reader, closing) {
   const ast = [];
   let token;
-  while ((token = reader.peek()) !== ')') {
+  while ((token = reader.peek()) !== closing) {
     if (token === undefined) {
-      throw new Error('unbalanced');
+      throw 'unbalanced';
     }
     ast.push(read_form(reader));
   }
   reader.next();
   return ast;
+}
+
+const read_list = (reader) => {
+  const ast = read_seq(reader, ')');
+  return new List(ast);
+};
+
+const read_vector = (reader) => {
+  const ast = read_seq(reader, ']');
+  return new Vector(ast);
+};
+
+const read_hashmap = (reader) => {
+  const ast = read_seq(reader, '}');
+  if(ast.length % 2 !== 0) {
+    throw 'invalid number of entries';
+  }
+  return new HashMap(ast);
 };
 
 const read_form = (reader) => {
@@ -56,6 +76,21 @@ const read_form = (reader) => {
     case '(':
       reader.next();
       return read_list(reader);
+    case '[':
+      reader.next();
+      return read_vector(reader);
+    case '{':
+      reader.next();
+      return read_hashmap(reader);
+    case ')':
+      reader.next();
+      throw 'unexpected';
+    case ']':
+      reader.next();
+      throw 'unexpected';
+    case '}':
+      reader.next();
+      throw 'unexpected';
   }
   reader.next();
   return read_atom(token);
