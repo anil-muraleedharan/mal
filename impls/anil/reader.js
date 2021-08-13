@@ -1,4 +1,4 @@
-const { List, Vector, HashMap, Nil } = require('./types');
+const { List, Vector, HashMap, Str, Symbol, Nil } = require('./types');
 
 class Reader {
   constructor(tokens) {
@@ -45,7 +45,13 @@ const read_atom = (token) => {
   if (token === 'nil') {
     return new Nil();
   }
-  return token;
+  if(token.startsWith('"')) {
+    if(/[^\\]"$/.test(token)) {
+      return new Str(token.substring(1, token.length - 1));
+    }
+    throw 'unbalanced';
+  }
+  return new Symbol(token);
 };
 
 function read_seq(reader, closing) {

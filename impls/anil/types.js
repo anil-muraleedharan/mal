@@ -28,10 +28,30 @@ class HashMap {
   }
 }
 
+class Str {
+  constructor(str) {
+    this.str = str;
+  }
+
+  toString() {
+    return '"' + this.str + '"';
+  }
+}
+
+class Symbol {
+  constructor(symbol) {
+    this.symbol = symbol;
+  }
+
+  toString() {
+    return this.symbol;
+  }
+}
+
 class Nil {
   toString() {
     return 'nil';
   }
 }
 
-module.exports = { List, Vector, HashMap, Nil };
+module.exports = { List, Vector, HashMap, Str, Symbol, Nil };
