@@ -28,4 +28,10 @@ class HashMap {
   }
 }
 
-module.exports = { List, Vector, HashMap };
+class Nil {
+  toString() {
+    return 'nil';
+  }
+}
+
+module.exports = { List, Vector, HashMap, Nil };

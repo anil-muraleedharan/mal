@@ -1,4 +1,4 @@
-const { List, Vector, HashMap } = require('./types');
+const { List, Vector, HashMap, Nil } = require('./types');
 
 class Reader {
   constructor(tokens) {
@@ -35,6 +35,15 @@ const read_atom = (token) => {
   }
   if (token.match(/^-?[0-9][0-9.]*$/)) {
     return parseFloat(token);
+  }
+  if (token === 'true') {
+    return true;
+  }
+  if (token === 'false') {
+    return false;
+  }
+  if (token === 'nil') {
+    return new Nil();
   }
   return token;
 };
