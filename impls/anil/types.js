@@ -61,10 +61,20 @@ class Symbol {
   }
 }
 
+class Keyword {
+  constructor(keyword) {
+    this.keyword = keyword;
+  }
+
+  toString() {
+    return ':' + this.keyword;
+  }
+}
+
 class Nil {
   toString() {
     return 'nil';
   }
 }
 
-module.exports = { List, Vector, HashMap, Str, Symbol, Nil };
+module.exports = { List, Vector, HashMap, Str, Symbol, Keyword, Nil };

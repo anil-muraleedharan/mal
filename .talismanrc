@@ -1,0 +1,5 @@
+fileignoreconfig:
+- filename: impls/anil/types.js
+  checksum: 5aa81ab934a4680fad8545f4ea759905c53ea09cb1951a70a9af6c2045c6a89e
+- filename: impls/anil/reader.js
+  checksum: e433a8d4a27393dcb0f144b41d8ff80bd84315cf961d9110bd266ad15646cec0

@@ -1,4 +1,4 @@
-const { List, Vector, HashMap, Str, Symbol, Nil } = require('./types');
+const { List, Vector, HashMap, Str, Symbol, Keyword, Nil } = require('./types');
 
 class Reader {
   constructor(tokens) {
@@ -50,6 +50,9 @@ const read_atom = (token) => {
       return new Str(token.substring(1, token.length - 1));
     }
     throw 'unbalanced';
+  }
+  if(token.startsWith(':')) {
+    return new Keyword(token.slice(1));
   }
   return new Symbol(token);
 };
