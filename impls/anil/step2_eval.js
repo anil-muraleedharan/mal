@@ -19,13 +19,12 @@ const eval_vector = (ast, env) => {
 }
 
 const eval_hashmap = (ast, env) => {
-  const newHashMap = ast.ast.map((ele, index) => {
-    if(index % 2 === 0){
-      return ele;
-    }
-    return EVAL(ele, env);
-  });
-  return new HashMap(newHashMap);
+  const newList = [];
+  ast.hashmap.forEach((value, key) => {
+    newList.push(EVAL(key, env));
+    newList.push(EVAL(value, env));
+  })
+  return new HashMap(newList);
 }
 
 const eval_ast = (ast, env) => {
