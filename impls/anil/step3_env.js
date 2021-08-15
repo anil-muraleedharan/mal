@@ -55,19 +55,26 @@ const EVAL = (ast, env) => {
   }
   switch (ast.ast[0].symbol) {
     case 'def!':
-      return env.set(ast.ast[1], EVAL(ast.ast[2], env));
+      const key = ast.ast[1]
+      const value = EVAL(ast.ast[2], env)
+      return env.set(key, value);
 
     case 'let*':
       const newEnv = new Env(env);
       const bindings = ast.ast[1].ast;
+      const expression = ast.ast[2];
       for(let i = 0; i < bindings.length; i += 2) {
-        newEnv.set(bindings[i], EVAL(bindings[i+1], newEnv));
+        const key = bindings[i];
+        const value = EVAL(bindings[i+1], newEnv);
+        newEnv.set(key, value);
       }
-      return EVAL(ast.ast[2], newEnv);
+      return EVAL(expression, newEnv);
+
+    default:
+      const newList = eval_ast(ast, env);
+      const fn = newList.ast[0];
+      return fn.apply(null, newList.ast.slice(1));
   }
-  const newList = eval_ast(ast, env);
-  const fn = newList.ast[0];
-  return fn.apply(null, newList.ast.slice(1));
 }
 
 const PRINT = (ast) => pr_str(ast);
