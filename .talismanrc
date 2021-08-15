@@ -7,3 +7,7 @@ fileignoreconfig:
   checksum: 5419efa027bbb52b3d86850c0f108c2a2f6e8a26df81acf183308168938bdada
 - filename: impls/anil/step3_env.js
   checksum: 86d55c964bfb53668fe9e42f1f558601d7376c37d48b826b152e466c493b85aa
+- filename: impls/anil/env.js
+  checksum: db5097c02b3541243dd3165df9ac96d6a6b3ed39295311c71464b3c76b4f77ad
+- filename: impls/anil/step3_env.js
+  checksum: d66491fa189403ec5032d6321fa529e133cc2edc4e5ea258ebe6919d2ae7f2be

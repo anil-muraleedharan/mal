@@ -5,11 +5,12 @@ class Env {
   }
 
   set(key, value) {
-    this.data[key] = value;
+    this.data[key.symbol] = value;
+    return value;
   }
 
   find(key) {
-    if(key in this.data){
+    if(key.symbol in this.data){
       return this;
     }
     if(!this.outer){
@@ -23,7 +24,7 @@ class Env {
     if(!env) {
       throw 'not found';
     }
-    return env.data[key];
+    return env.data[key.symbol];
   }
 }
 

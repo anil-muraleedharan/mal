@@ -1,7 +1,7 @@
 const readline = require('readline');
 const { read_str } = require('./reader');
 const { pr_str } = require('./printer');
-const { Symbol, List, Vector, HashMap } = require('./types');
+const { Symbol, List, Vector, HashMap, Nil } = require('./types');
 const Env = require('./env');
 
 const rl = readline.createInterface({
@@ -30,7 +30,7 @@ const eval_hashmap = (ast, env) => {
 
 const eval_ast = (ast, env) => {
   if(ast instanceof Symbol) {
-    return env.get(ast.symbol);
+    return env.get(ast);
   }
   if(ast instanceof List) {
     return eval_list(ast, env);
@@ -53,6 +53,10 @@ const EVAL = (ast, env) => {
   if(ast.isEmpty()) {
     return ast;
   }
+  switch (ast.ast[0].symbol) {
+    case 'def!':
+      return env.set(ast.ast[1], EVAL(ast.ast[2], env));
+  }
   const newList = eval_ast(ast, env);
   const fn = newList.ast[0];
   return fn.apply(null, newList.ast.slice(1));
@@ -61,10 +65,10 @@ const EVAL = (ast, env) => {
 const PRINT = (ast) => pr_str(ast);
 
 const env = new Env(null);
-env.set('+', (a, b) => a + b);
-env.set('-', (a, b) => a - b);
-env.set('*', (a, b) => a * b);
-env.set('/', (a, b) => a / b);
+env.set(new Symbol('+'), (a, b) => a + b);
+env.set(new Symbol('-'), (a, b) => a - b);
+env.set(new Symbol('*'), (a, b) => a * b);
+env.set(new Symbol('/'), (a, b) => a / b);
 
 const rep = (str) =>  PRINT(EVAL(READ(str), env));
 
