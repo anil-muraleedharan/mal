@@ -56,6 +56,14 @@ const EVAL = (ast, env) => {
   switch (ast.ast[0].symbol) {
     case 'def!':
       return env.set(ast.ast[1], EVAL(ast.ast[2], env));
+
+    case 'let*':
+      const newEnv = new Env(env);
+      const bindings = ast.ast[1].ast;
+      for(let i = 0; i < bindings.length; i += 2) {
+        newEnv.set(bindings[i], EVAL(bindings[i+1], newEnv));
+      }
+      return EVAL(ast.ast[2], newEnv);
   }
   const newList = eval_ast(ast, env);
   const fn = newList.ast[0];

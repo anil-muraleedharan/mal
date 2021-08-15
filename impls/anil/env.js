@@ -22,7 +22,7 @@ class Env {
   get(key) {
     const env = this.find(key);
     if(!env) {
-      throw 'not found';
+      throw `'${key.symbol}' not found`;
     }
     return env.data[key.symbol];
   }
